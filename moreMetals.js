@@ -9,8 +9,10 @@ elements.platinum = {
     tempHigh: 2041,
     stateHigh: "molten_platinum",
     desc: "A rare, noble metal. Extremely resistant to corrosion.",
-    hidden: false
-}
+    hidden: false,
+    noMix: true,
+    brightness: 0.1,
+};
 
 elements.molten_platinum = {
     color: "#ffcccc",
@@ -19,8 +21,9 @@ elements.molten_platinum = {
     density: 20000,
     tempLow: 2041,
     stateLow: "platinum",
-    hidden: false
-}
+    hidden: false,
+    viscosity: 1.2,
+};
 
 // --- Titanium ---
 elements.titanium = {
@@ -32,8 +35,10 @@ elements.titanium = {
     tempHigh: 1668,
     stateHigh: "molten_titanium",
     desc: "Strong, light metal. Resistant to heat and corrosion.",
-    hidden: false
-}
+    hidden: false,
+    noMix: true,
+    brightness: 0.1,
+};
 
 elements.molten_titanium = {
     color: "#ffaaaa",
@@ -42,13 +47,14 @@ elements.molten_titanium = {
     density: 4300,
     tempLow: 1668,
     stateLow: "titanium",
-    hidden: false
-}
+    hidden: false,
+    viscosity: 1.1,
+};
 
 // --- Chromium ---
 elements.chromium = {
     reactions: {
-        "water": { elem2:null, elem1:"oxidized_chromium", chance:10, tempMin:80 }
+        "water": { elem2: null, elem1: "oxidized_chromium", chance: 0.1, tempMin: 80 },
     },
     color: "#a9a9a9",
     behavior: behaviors.SOLID,
@@ -58,43 +64,53 @@ elements.chromium = {
     tempHigh: 1907,
     stateHigh: "molten_chromium",
     desc: "Shiny, reflective metal that forms a green oxide layer.",
-    hidden: false
-}
+    hidden: false,
+    noMix: true,
+    brightness: 0.15,
+};
 
 elements.oxidized_chromium = {
-    color: ["#05a32aff", "#08c15bff", "#00d1aaff"],
+    color: ["#05a32a", "#08c15b", "#00d1aa"],
     behavior: behaviors.SOLID,
     category: "states",
     density: 5230,
     conduct: 0,
     tempHigh: 1832,
     stateHigh: "molten_chromium",
+    desc: "Chromium that has oxidized, forming a greenish protective layer.",
     hidden: false,
-}
+};
 
 elements.molten_chromium = {
-    color: ["#ff9999", "#fe6969ff", "#ee5d72ff"],
+    color: ["#ff9999", "#fe6969", "#ee5d72"],
     behavior: behaviors.LIQUID,
     category: "molten",
     density: 7000,
     tempLow: 1907,
     stateLow: "chromium",
-    hidden: false
-}
+    hidden: false,
+    viscosity: 1.2,
+};
 
 // --- Bonus Reaction: Iron + Chromium = Stainless Steel ---
-if (elements.iron && !elements.stainless_steel) {
-    elements.iron.reactions = {
-        "chromium": { elem1: "stainless_steel", elem2: null }
-    }
+if (elements.iron) {
+    if (!elements.iron.reactions) elements.iron.reactions = {};
+    elements.iron.reactions.chromium = { elem1: "stainless_steel", elem2: null, chance: 0.2 };
 
-    elements.stainless_steel = {
-        color: "#c0c0c0",
-        behavior: behaviors.SOLID,
-        category: "alloys",
-        density: 8000,
-        tempHigh: 1500,
-        stateHigh: "molten_steel",
-        desc: "An alloy of iron and chromium. Resistant to rust.",
+    if (!elements.stainless_steel) {
+        elements.stainless_steel = {
+            color: "#c0c0c0",
+            behavior: behaviors.SOLID,
+            category: "alloys",
+            density: 8000,
+            tempHigh: 1500,
+            stateHigh: "molten_steel",
+            desc: "An alloy of iron and chromium. Resistant to rust.",
+            hidden: false,
+            noMix: true,
+            brightness: 0.12,
+        };
     }
 }
+
+console.log("✅ Metals Expansion Mod loaded: Platinum, Titanium, Chromium, and Stainless Steel added!");
